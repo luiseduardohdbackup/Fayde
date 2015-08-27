@@ -5912,6 +5912,7 @@ declare module Fayde.Media.Videos {
         Listen(listener: IVideoChangedListener): void;
         Unlisten(listener: IVideoChangedListener): void;
         _OnErrored(e: Event): void;
+        private _OnCanPlay(e);
         _OnLoad(e: Event): void;
     }
 }
