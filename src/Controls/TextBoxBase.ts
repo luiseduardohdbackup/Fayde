@@ -13,7 +13,7 @@ module Fayde.Controls {
         static SelectionStartProperty = DependencyProperty.RegisterFull("SelectionStart", () => Number, TextBoxBase, 0, undefined, undefined, true, positiveIntValidator);
         static BaselineOffsetProperty = DependencyProperty.Register("BaselineOffset", () => Number, TextBoxBase);
         static MaxLengthProperty = DependencyProperty.RegisterFull("MaxLength", () => Number, TextBoxBase, 0, undefined, undefined, undefined, positiveIntValidator);
-        static SelectionOnFocusProperty = DependencyProperty.RegisterFull("SelectionOnFocus", () => SelectionOnFocus, TextBoxBase, SelectionOnFocus.Default, undefined, TextBoxBase._SelectionOnFocusCoercer);
+        static SelectionOnFocusProperty = DependencyProperty.Register("SelectionOnFocus", () => new Enum(SelectionOnFocus), TextBoxBase, SelectionOnFocus.Default);
 
         CaretBrush: Media.Brush;
         SelectionForeground: Media.Brush;
@@ -34,12 +34,6 @@ module Fayde.Controls {
         $Proxy: Text.Proxy;
         $Advancer: Internal.ICursorAdvancer;
         $View: Internal.TextBoxView;
-
-        private static _SelectionOnFocusCoercer(d: DependencyObject, propd: DependencyProperty, value: any): any {
-            if (typeof value === "string")
-                return nullstone.convertStringToEnum(value, SelectionOnFocus);
-            return value;
-        }
 
         constructor (eventsMask: Text.EmitChangedType) {
             super();
