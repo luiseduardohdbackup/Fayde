@@ -84,12 +84,12 @@ module Fayde.Controls {
 
                 case SelectionOnFocus.CaretToBeginning: // 2
                     cursor = this.$Advancer.CursorLineBegin(cursor);
-                    proxy.setAnchorCursor(cursor, cursor);
+                    proxy.setAnchorCursor(anchor, cursor);
                     break;
 
                 case SelectionOnFocus.CaretToEnd: // 3
                     cursor = this.$Advancer.CursorLineEnd(cursor);
-                    proxy.setAnchorCursor(cursor, cursor);
+                    proxy.setAnchorCursor(anchor, cursor);
                     break;
 
                 case SelectionOnFocus.DefaultSelectAll: // 5
