@@ -30,6 +30,7 @@ module Fayde.Controls {
         $Proxy: Text.Proxy;
         $Advancer: Internal.ICursorAdvancer;
         $View: Internal.TextBoxView;
+        $CPHelper: Internal.TextCopyPasteHelper;
 
         constructor (eventsMask: Text.EmitChangedType) {
             super();
@@ -37,7 +38,7 @@ module Fayde.Controls {
             view.MouseLeftButtonDown.on((s, e) => this.OnMouseLeftButtonDown(e), this);
             view.MouseLeftButtonUp.on((s, e) => this.OnMouseLeftButtonUp(e), this);
             this.$Proxy = new Text.Proxy(eventsMask, MAX_UNDO_COUNT);
-
+            this.$CPHelper = new Internal.TextCopyPasteHelper();
             this._SyncFont();
         }
 
@@ -217,14 +218,16 @@ module Fayde.Controls {
                             case Key.C:
                                 //Ctrl+C => Copy
                                 //TODO: Copy to clipboard
+                                this.copyText(this.$Proxy.text);
                                 handled = true;
                                 break;
                             case Key.X:
                                 //Ctrl+X => Cut
                                 if (isReadOnly)
                                     break;
-                                //TODO: Copy to clipboard
-                                //TODO: Clear text
+                                this.copyText(this.$Proxy.text);
+                                this.$Proxy.text = "";
+                                this.$Proxy.removeText(this.$Proxy.selAnchor, this.$Proxy.selCursor);
                                 handled = true;
                                 break;
                             case Key.Y:
@@ -234,6 +237,7 @@ module Fayde.Controls {
                                     proxy.redo();
                                 }
                                 break;
+                                this.pasteText(pasted_text => this.$Proxy.text = pasted_text);
                             case Key.Z:
                                 //Ctrl+Z => Undo
                                 if (!isReadOnly) {
