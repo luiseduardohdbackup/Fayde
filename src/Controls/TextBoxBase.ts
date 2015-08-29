@@ -219,15 +219,15 @@ module Fayde.Controls {
                                 //Ctrl+C => Copy
                                 //TODO: Copy to clipboard
                                 this.copyText(this.$Proxy.text);
+                                this.$CPHelper.CopyText(this.$Proxy.getSelectedText());
                                 handled = true;
                                 break;
                             case Key.X:
                                 //Ctrl+X => Cut
                                 if (isReadOnly)
                                     break;
-                                this.copyText(this.$Proxy.text);
-                                this.$Proxy.text = "";
-                                this.$Proxy.removeText(this.$Proxy.selAnchor, this.$Proxy.selCursor);
+                                this.$CPHelper.CopyText(this.$Proxy.getSelectedText());
+                                proxy.removeText(this.$Proxy.selAnchor, this.$Proxy.selCursor);
                                 handled = true;
                                 break;
                             case Key.Y:
@@ -237,7 +237,12 @@ module Fayde.Controls {
                                     proxy.redo();
                                 }
                                 break;
-                                this.pasteText(pasted_text => this.$Proxy.text = pasted_text);
+                                this.pasteText((pasted_text)=> {
+                                	this.$Proxy.text = pasted_text);
+                                    var cursor = proxy.selCursor;
+                                    cursor = cursor + pastedText.length - 1;
+                                    this.$Proxy.setAnchorCursor(cursor, cursor);
+                                }.bind(this));
                             case Key.Z:
                                 //Ctrl+Z => Undo
                                 if (!isReadOnly) {
