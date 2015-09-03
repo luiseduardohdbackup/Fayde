@@ -220,6 +220,7 @@ module Fayde.Controls {
                                 //TODO: Copy to clipboard
                                 this.copyText(this.$Proxy.text);
                                 this.$CPHelper.CopyText(this.$Proxy.getSelectedText());
+								
                                 handled = true;
                                 break;
                             case Key.X:
