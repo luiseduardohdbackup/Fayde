@@ -1,4 +1,5 @@
-/// <reference path="../Core/DependencyObject.ts" />
+/// <reference path="../Core/DependencyObject" />
+/// <reference path="../Runtime/Zoom" />
 
 interface ITimeline {
     Update(nowTime: number);
@@ -33,7 +34,7 @@ module Fayde {
         }
 
         protected OnZoomFactorChanged (oldFactor: number, newFactor: number) {
-
+            this.MainSurface.ChangeZoom(newFactor);
         }
 
         private _ApplyTheme() {

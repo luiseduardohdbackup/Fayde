@@ -5,6 +5,7 @@ module Fayde {
         App: Application;
         private $$root: UIElement = null;
         private $$inputMgr: Engine.InputManager;
+        private $$zoom: number = 1;
 
         HitTestCallback: (inputList: Fayde.UINode[]) => void;
 
@@ -129,7 +130,14 @@ module Fayde {
             surface.$$inputMgr.ReleaseMouseCapture(uin);
         }
 
-        private $$handleResize (evt) {
+        ChangeZoom (newZoom: number) {
+            if (this.$$zoom === newZoom)
+                return;
+            this.$$zoom = newZoom;
+            this.$$handleResize();
+        }
+
+        private $$handleResize (evt?: any) {
             if (resizeTimeout)
                 clearTimeout(resizeTimeout);
             resizeTimeout = setTimeout(() => {
@@ -139,7 +147,7 @@ module Fayde {
         }
 
         private $$stretchCanvas () {
-            this.resize(window.innerWidth, window.innerHeight);
+            this.resize(window.innerWidth * this.$$zoom, window.innerHeight * this.$$zoom);
         }
     }
 }
